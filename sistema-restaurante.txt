@@ -1,0 +1,96 @@
+sistema-restaurante
+├── AGENTS.md
+├── README.md
+├── eslint.config.mjs
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── public
+│   ├── file.svg
+│   ├── globe.svg
+│   ├── vercel.svg
+│   └── window.svg
+├── src
+│   ├── actions
+│   │   ├── auth.actions.ts
+│   │   ├── caja.actions.ts
+│   │   ├── inventario.actions.ts
+│   │   ├── menu.actions.ts
+│   │   ├── operaciones.actions.ts
+│   │   └── pedidos.actions.ts
+│   ├── app
+│   │   ├── (auth)
+│   │   │   ├── layout.tsx
+│   │   │   └── login
+│   │   │       └── page.tsx
+│   │   ├── (ecommerce)
+│   │   │   ├── checkout
+│   │   │   │   └── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   └── page.tsx
+│   │   ├── (sistema)
+│   │   │   ├── admin
+│   │   │   │   ├── inventario-compras
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── layout.tsx
+│   │   │   │   ├── menu
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── page.tsx
+│   │   │   │   ├── reportes
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── usuarios
+│   │   │   │   │   └── page.tsx
+│   │   │   │   └── ventas
+│   │   │   │       └── page.tsx
+│   │   │   ├── caja
+│   │   │   │   ├── cierre-turno
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── cobros-rendiciones
+│   │   │   │   │   └── page.tsx
+│   │   │   │   ├── layout.tsx
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── stock-rapido
+│   │   │   │       └── page.tsx
+│   │   │   ├── layout.tsx
+│   │   │   └── meseros
+│   │   │       ├── comanda
+│   │   │       │   └── [mesaId]
+│   │   │       ├── layout.tsx
+│   │   │       ├── mesas
+│   │   │       │   └── page.tsx
+│   │   │       ├── mi-rendicion
+│   │   │       │   └── page.tsx
+│   │   │       └── page.tsx
+│   │   ├── api
+│   │   │   ├── imprimir
+│   │   │   │   ├── cocina
+│   │   │   │   │   └── route.ts
+│   │   │   │   └── cuenta
+│   │   │   │       └── route.ts
+│   │   │   └── webhooks
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── components
+│   │   ├── caja
+│   │   ├── comandas
+│   │   ├── ecommerce
+│   │   ├── mesas
+│   │   ├── reportes
+│   │   └── ui
+│   │       ├── MenuManager.tsx
+│   │       └── UsuariosManager.tsx
+│   ├── lib
+│   │   ├── print
+│   │   │   └── escpos.ts
+│   │   ├── supabase
+│   │   │   ├── client.ts
+│   │   │   ├── middleware.ts
+│   │   │   └── server.ts
+│   │   └── utils.ts
+│   ├── middleware.ts
+│   └── types
+│       └── database.types.ts
+└── tsconfig.json
+
