@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Suspense, useEffect, useRef, useState, type ReactNode } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 const navPrincipal = [
@@ -16,7 +16,7 @@ function saludoHora(h: number) {
   return h < 12 ? "Buenos días" : h < 19 ? "Buenas tardes" : "Buenas noches";
 }
 
-export default function CajaLayout({ children }: { children: ReactNode }) {
+function CajaContenido({ children }: { children: ReactNode }) {
   const pathname = usePathname() ?? "";
   const router = useRouter();
   const [nombreCajero, setNombreCajero] = useState<string>("Cajero/a");
@@ -342,5 +342,19 @@ export default function CajaLayout({ children }: { children: ReactNode }) {
         </div>
       </nav>
     </div>
+  );
+}
+
+export default function CajaLayout({ children }: { children: ReactNode }) {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-dvh bg-stone-950 p-6 text-stone-100">
+          Cargando...
+        </div>
+      }
+    >
+      <CajaContenido>{children}</CajaContenido>
+    </Suspense>
   );
 }

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { Suspense, useEffect, useRef, useState, type ReactNode } from "react";
 
 const navPrincipal = [
   { label: "Inicio", href: "/admin", icon: "🏠" },
@@ -21,7 +21,7 @@ function saludo(h: number) {
   return h < 12 ? "Buenos días" : h < 19 ? "Buenas tardes" : "Buenas noches";
 }
 
-export default function AdminLayout({ children }: { children: ReactNode }) {
+function AdminContenido({ children }: { children: ReactNode }) {
   const pathname = usePathname() ?? "";
   const router = useRouter();
   const [saliendo, setSaliendo] = useState(false);
@@ -302,5 +302,19 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         </div>
       </nav>
     </div>
+  );
+}
+
+export default function AdminLayout({ children }: { children: ReactNode }) {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-dvh bg-stone-950 p-6 text-stone-100">
+          Cargando...
+        </div>
+      }
+    >
+      <AdminContenido>{children}</AdminContenido>
+    </Suspense>
   );
 }

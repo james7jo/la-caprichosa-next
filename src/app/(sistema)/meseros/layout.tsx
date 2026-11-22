@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState, type ReactNode } from "react";
+import { Suspense, useEffect, useState, type ReactNode } from "react";
 import { createClient } from "@/lib/supabase/client";
 
 const navMesero = [
@@ -12,9 +12,9 @@ const navMesero = [
   { label: "Rendición", href: "/meseros/mi-rendicion", icon: "💵" },
 ];
 
-export default function MeserosLayout({ children }: { children: ReactNode }) {
-  const pathname = usePathname() ?? "";
+function MeserosContenido({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname() ?? "";
   const [esAdmin, setEsAdmin] = useState(false);
   const [rolUsuario, setRolUsuario] = useState<string | null>(null);
   const [cajaAbierta, setCajaAbierta] = useState<boolean | null>(null);
@@ -47,13 +47,15 @@ export default function MeserosLayout({ children }: { children: ReactNode }) {
       setEsAdmin(rol === "admin");
       setCajaAbierta(Boolean(turnoAbierto));
     }
+
     void verificarRolYEstadoCaja();
     return () => {
       activo = false;
     };
-  }, [pathname]);
+  }, []);
 
   const isActive = (href: string) => {
+    if (!pathname) return false;
     const base = href.split("?")[0];
     if (base === "/meseros") return pathname === "/meseros";
     return pathname.startsWith(base);
@@ -76,7 +78,6 @@ export default function MeserosLayout({ children }: { children: ReactNode }) {
 
   return (
     <div className="flex min-h-dvh flex-col bg-stone-950 text-stone-100 lg:flex-row">
-      {/* Sidebar fijo en pantallas grandes */}
       <aside className="hidden border-r border-white/[0.07] bg-gradient-to-b from-stone-900 to-stone-950 lg:fixed lg:inset-y-0 lg:flex lg:w-60 lg:flex-col">
         <div className="border-b border-white/[0.07] p-5">
           <div className="flex items-center gap-3">
@@ -130,7 +131,6 @@ export default function MeserosLayout({ children }: { children: ReactNode }) {
         )}
       </aside>
 
-      {/* Contenedor principal */}
       <div className="flex min-w-0 flex-1 flex-col pb-24 lg:pb-0 lg:pl-60">
         {esAdmin && (
           <div className="flex items-center justify-between border-b border-amber-400/25 bg-amber-500/10 px-4 py-2 text-xs lg:hidden">
@@ -172,7 +172,6 @@ export default function MeserosLayout({ children }: { children: ReactNode }) {
         </div>
       </div>
 
-      {/* Barra inferior en celular (una sola mano) */}
       <nav
         aria-label="Navegación del mesero"
         className="fixed inset-x-0 bottom-0 z-30 border-t border-white/10 bg-stone-950/95 px-2 pt-1.5 pb-[max(0.65rem,env(safe-area-inset-bottom))] backdrop-blur-xl lg:hidden"
@@ -198,5 +197,19 @@ export default function MeserosLayout({ children }: { children: ReactNode }) {
         </div>
       </nav>
     </div>
+  );
+}
+
+export default function MeserosLayout({ children }: { children: ReactNode }) {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-dvh bg-stone-950 text-stone-100 p-6">
+          Cargando panel de meseros...
+        </div>
+      }
+    >
+      <MeserosContenido>{children}</MeserosContenido>
+    </Suspense>
   );
 }
