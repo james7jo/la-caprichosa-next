@@ -205,7 +205,7 @@ export default function MeserosLayout({ children }: { children: ReactNode }) {
     <Suspense
       fallback={
         <div className="min-h-dvh bg-stone-950 text-stone-100 p-6">
-          Cargando panel de meseros...
+          Cargando panel de meseros
         </div>
       }
     >
